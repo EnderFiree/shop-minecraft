@@ -180,6 +180,30 @@
         .rank button:hover {
             background: rgba(255, 255, 255, 0.4);
         }
+
+        /* Stile notifica */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: green;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            display: none;
+            z-index: 102;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .notification.show {
+            display: block;
+            opacity: 1;
+        }
+
+        .notification.error {
+            background-color: red;
+        }
     </style>
     <script src="https://www.paypal.com/sdk/js?client-id=AZxfqNzIB_vmIsIyI-j8y5effKA3WbJRsj0xRNUbV519wBwaI3UfCTP9OuTRtJ4p4Hx_LM0oP8TCzW2f&currency=EUR"></script>
 </head>
@@ -234,6 +258,8 @@
             <button onclick="addToCart('Rank Void', 69.99)">Aggiungi al carrello - €69.99</button>
         </div>
     </div>
+
+    <div id="notification" class="notification"></div>
 
     <script>
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -297,16 +323,28 @@
             // Verifica se il prodotto è già nel carrello
             const existingItem = cart.find(item => item.name === name);
             if (existingItem) {
-                alert('Questo prodotto è già nel carrello.');
+                showNotification('Questo prodotto è già nel carrello.', 'error');
                 return; // Non aggiungere il prodotto se è già presente
             }
             cart.push({ name, price });
+            showNotification(`Aggiunto al carrello: ${name}`, 'success');
             renderCart();
         }
 
         function removeFromCart(index) {
+            const removedItem = cart[index].name;
             cart.splice(index, 1);
+            showNotification(`Rimosso dal carrello: ${removedItem}`, 'error');
             renderCart();
+        }
+
+        function showNotification(message, type) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification show ${type}`;
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
         }
 
         function toggleCartDropdown() {
