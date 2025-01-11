@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AppleMC Shop</title>
+    <style>
+        /* Stile generale */
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            font-family: 'Poppins', sans-serif;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Intestazione */
+        .header {
+            width: 100%;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.8);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            position: fixed;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .cart {
+            display: flex;
+            align-items: center;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .cart-icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+
+        .cart-count {
+            background: red;
+            border-radius: 50%;
+            color: white;
+            font-size: 14px;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: -5px;
+            right: -10px;
+        }
+
+        .cart-dropdown {
+            display: none;
+            position: absolute;
+            top: 40px;
+            right: 0;
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            width: 300px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .cart-dropdown.active {
+            display: block;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .cart-item p {
+            margin: 0;
+        }
+
+        .cart-item button {
+            background: red;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .checkout {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .checkout button {
+            background: green;
+            border: none;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .rank-list {
+            margin-top: 80px;
+            width: 90%;
+            max-width: 800px;
+        }
+
+        .rank {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .rank img {
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        .rank-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .rank h3 {
+            margin: 0;
+        }
+
+        .rank button {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .rank button:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+    </style>
+    <script src="https://www.paypal.com/sdk/js?client-id=AZxfqNzIB_vmIsIyI-j8y5effKA3WbJRsj0xRNUbV519wBwaI3UfCTP9OuTRtJ4p4Hx_LM0oP8TCzW2f&currency=EUR"></script>
+</head>
+<body>
+
+    <div class="header">
+        <div class="logo">
+            <img src="https://prombgaming.com/wp-content/uploads/2023/02/AppleMC-min-1024x576.png" alt="Logo" id="logo-image">
+            <h1>AppleMC</h1>
+        </div>
+        <div class="cart" onclick="toggleCartDropdown()">
+            <i class="fas fa-shopping-cart cart-icon"></i>
+            <div class="cart-count" id="cart-count">0</div>
+            <div class="cart-dropdown" id="cart-dropdown">
+                <div id="cart-items"></div>
+                <div class="checkout">
+                    <p>Total: €<span id="total-price">0.00</span></p>
+                    <div id="paypal-button-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="rank-list">
+        <div class="rank">
+            <div class="rank-info">
+                <img src="https://titanet.it/wp-content/uploads/iron-golem.png" alt="Rank Iron">
+                <h3>Rank Iron</h3>
+            </div>
+            <button onclick="addToCart('Rank Iron', 4.99)">Aggiungi al carrello - €4.99</button>
+        </div>
+        <div class="rank">
+            <div class="rank-info">
+                <img src="https://titanet.it/wp-content/uploads/diamond-golem.png" alt="Rank Diamond">
+                <h3>Rank Diamond</h3>
+            </div>
+            <button onclick="addToCart('Rank Diamond', 10.99)">Aggiungi al carrello - €10.99</button>
+        </div>
+        <div class="rank">
+            <div class="rank-info">
+                <img src="https://titanet.it/wp-content/uploads/netherite-golem.png" alt="Rank Netherite">
+                <h3>Rank Netherite</h3>
+            </div>
+            <button onclick="addToCart('Rank Netherite', 30.99)">Aggiungi al carrello - €30.99</button>
+        </div>
+        <div class="rank">
+            <div class="rank-info">
+                <img src="https://titanet.it/wp-content/uploads/void-golem.png" alt="Rank Void">
+                <h3>Rank Void</h3>
+            </div>
+            <button onclick="addToCart('Rank Void', 69.99)">Aggiungi al carrello - €69.99</button>
+        </div>
+    </div>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let paypalRendered = false;
+
+        window.onload = function() {
+            // Verifica se l'utente è loggato
+            const loggedIn = sessionStorage.getItem('loggedIn');
+            if (!loggedIn) {
+                window.location.href = 'login.html';  // Reindirizza alla pagina di login
+            }
+            renderCart();
+        };
+
+        function renderCart() {
+            const cartItems = document.getElementById('cart-items');
+            const cartCount = document.getElementById('cart-count');
+            const totalPrice = document.getElementById('total-price');
+            cartItems.innerHTML = '';
+            let total = 0;
+            cart.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.classList.add('cart-item');
+                div.innerHTML = `<p>${item.name} - €${item.price.toFixed(2)}</p> <button onclick="removeFromCart(${index})">Rimuovi</button>`;
+                cartItems.appendChild(div);
+                total += item.price;
+            });
+            cartCount.textContent = cart.length;
+            totalPrice.textContent = total.toFixed(2);
+            localStorage.setItem('cart', JSON.stringify(cart));
+
+            if (cart.length > 0 && !paypalRendered) {
+                paypal.Buttons({
+                    createOrder: function(data, actions) {
+                        return actions.order.create({
+                            purchase_units: [{
+                                amount: {
+                                    value: total.toFixed(2)
+                                }
+                            }]
+                        });
+                    },
+                    onApprove: function(data, actions) {
+                        return actions.order.capture().then(function(details) {
+                            alert('Pagamento completato con successo!');
+                            cart = [];
+                            renderCart();
+                        });
+                    },
+                    onCancel: function() {
+                        alert('Pagamento annullato.');
+                    }
+                }).render('#paypal-button-container');
+                paypalRendered = true;
+            } else if (cart.length === 0 && paypalRendered) {
+                document.getElementById('paypal-button-container').innerHTML = '';
+                paypalRendered = false;
+            }
+        }
+
+        function addToCart(name, price) {
+            cart.push({ name, price });
+            renderCart();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            renderCart();
+        }
+
+        function toggleCartDropdown() {
+            const cartDropdown = document.getElementById('cart-dropdown');
+            cartDropdown.classList.toggle('active');
+        }
+    </script>
+
+</body>
+</html>
