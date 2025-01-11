@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AppleMC Shop</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"> <!-- Aggiunto per le icone -->
     <style>
         /* Stile generale */
         body {
@@ -44,12 +45,13 @@
             margin-right: 10px;
         }
 
+        /* Carrello spostato a destra */
         .cart {
             display: flex;
             align-items: center;
-            position: fixed; /* Carrello in alto a sinistra */
+            position: fixed; /* Carrello in alto a destra */
             top: 10px;
-            left: 10px;
+            right: 10px; /* Cambiato da left a right per spostarlo a destra */
             cursor: pointer;
             margin-left: 20px;
         }
@@ -185,7 +187,7 @@
     </div>
 
     <div class="cart" onclick="toggleCartDropdown()">
-        <i class="fas fa-shopping-cart cart-icon"></i>
+        <i class="fas fa-shopping-cart cart-icon"></i> <!-- Aggiunto l'icona carrello -->
         <div class="cart-count" id="cart-count">0</div>
         <div class="cart-dropdown" id="cart-dropdown">
             <div id="cart-items"></div>
