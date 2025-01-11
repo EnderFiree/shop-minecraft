@@ -54,12 +54,17 @@
             right: 10px; /* Cambiato da left a right per spostarlo a destra */
             cursor: pointer;
             margin-left: 20px;
+            z-index: 101;
         }
 
         .cart-icon {
-            font-size: 24px;
-            color: white; /* Modificato per il colore bianco dell'icona */
-            margin-right: 10px;
+            font-size: 30px;
+            color: white !important; /* Assicura che l'icona sia sempre bianca */
+            transition: color 0.3s ease-in-out;
+        }
+
+        .cart-icon:hover {
+            color: #ff5a5a; /* Cambia colore quando si passa sopra con il mouse */
         }
 
         .cart-count {
