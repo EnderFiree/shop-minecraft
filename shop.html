@@ -16,7 +16,7 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            position: relative; /* Permette di gestire il posizionamento degli elementi sopra la pagina */
+            position: relative;
         }
 
         /* Intestazione */
@@ -49,7 +49,7 @@
             align-items: center;
             position: relative;
             cursor: pointer;
-            margin-left: 20px; /* Aggiungi un piccolo spazio tra il carrello e gli altri elementi */
+            margin-left: 20px;
         }
 
         .cart-icon {
@@ -76,7 +76,7 @@
             display: none;
             position: absolute;
             top: 40px;
-            left: 0; /* Posiziona il carrello a sinistra */
+            left: 0;
             background: rgba(0, 0, 0, 0.9);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 10px;
@@ -229,10 +229,9 @@
         let paypalRendered = false;
 
         window.onload = function() {
-            // Verifica se l'utente è loggato
             const loggedIn = sessionStorage.getItem('loggedIn');
             if (!loggedIn) {
-                window.location.href = 'login.html';  // Reindirizza alla pagina di login
+                window.location.href = 'login.html';
             }
             renderCart();
         };
