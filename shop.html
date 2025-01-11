@@ -58,6 +58,7 @@
 
         .cart-icon {
             font-size: 24px;
+            color: white; /* Modificato per il colore bianco dell'icona */
             margin-right: 10px;
         }
 
@@ -187,7 +188,7 @@
     </div>
 
     <div class="cart" onclick="toggleCartDropdown()">
-        <i class="fas fa-shopping-cart cart-icon"></i> <!-- Aggiunto l'icona carrello -->
+        <i class="fas fa-shopping-cart cart-icon"></i> <!-- Icona del carrello -->
         <div class="cart-count" id="cart-count">0</div>
         <div class="cart-dropdown" id="cart-dropdown">
             <div id="cart-items"></div>
@@ -288,6 +289,12 @@
         }
 
         function addToCart(name, price) {
+            // Verifica se il prodotto è già nel carrello
+            const existingItem = cart.find(item => item.name === name);
+            if (existingItem) {
+                alert('Questo prodotto è già nel carrello.');
+                return; // Non aggiungere il prodotto se è già presente
+            }
             cart.push({ name, price });
             renderCart();
         }
